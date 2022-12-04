@@ -1,0 +1,4 @@
+export const ModalActionTypes = {
+    TOGGLE_MODAL_OPEN: "TOGGLE_MODAL_OPEN",
+    POPULATE_MODAL_DATA: "POPULATE_MODAL_DATA",
+}

@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer components {
+    .input-style {
+      @apply bg-blue-400 placeholder-white focus:outline-none focus:border-b-2 w-10/12 text-black mb-4;
+    }
+  }
