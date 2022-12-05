@@ -10,14 +10,19 @@ import { Select } from '@mantine/core';
 import * as yup from "yup";
 import { useSelector } from "react-redux";
 import { selectModalData } from "../redux/Modal/modal.selectors";
+import HomePage from "../HomePage/homePage.component";
+import { useNavigate } from "react-router-dom";
 
 function Form() {
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
     const [email, setEmail] = useState("");
+    const [role, setRole] = useState("")
     const [ description, setDescription ] = useState("");
     const [ parent, setParent ] = useState("");
     const [ APIData, setAPIData ] = useState([]);
+
+    const navigate = useNavigate()
 
     const modalData = useSelector(selectModalData);
     console.log(modalData)
@@ -92,6 +97,46 @@ function Form() {
         let dropdown = options2.find(item => item.value === selectedOption);
         setParent(dropdown.id);
       }
+
+      const axiosRequest = () => {
+        if(modalData.data.name) {
+          axios.put(`https://6389b272c5356b25a205f817.mockapi.io/organization/${modalData.data.Id}`, 
+            {
+                name: `${fname} ${lname}`,
+                Parent: parent,
+                attributes: {
+                  Description: role,
+                  Email: email
+                }
+            }).then(function (response) {
+                  console.log(response);
+                  console.log("Successfully Logged in ");
+                  navigate("/")
+                
+                })
+                .catch(function (error) {
+                  console.log(error);
+              });  
+        } else {
+          axios.post(`https://6389b272c5356b25a205f817.mockapi.io/organization`, 
+            {
+                name: `${fname} ${lname}`,
+                Parent: parent,
+                attributes: {
+                  Description: role,
+                  Email: email
+                }
+            }).then(function (response) {
+              console.log(response);
+              console.log("Successfully Logged in ");
+              navigate("/")
+            
+            })
+            .catch(function (error) {
+              console.log(error);
+          });  
+        }
+      }
       
 
     return(
@@ -100,22 +145,23 @@ function Form() {
             setFname(data.firstName)
             setLname(data.lastName)
             setEmail(data.email)
+            axiosRequest()
           })}>
             <input value={fname} onChange={(e) => setFname(e.target.value)} className="input-style" placeholder="First Name"/>
       
-            <p>{errors.firstName?.message}</p>
+            {/* <p>{errors.firstName?.message}</p> */}
       
             <input value={lname} onChange={(e) => setLname(e.target.value)} className="input-style" placeholder="Last Name"/>
 
-            <p>{errors.lastName?.message}</p>
+            {/* <p>{errors.lastName?.message}</p> */}
 
             <input value={email} onChange={(e) => setEmail(e.target.value)} className="input-style" placeholder="Email"/>
 
-            <p>{errors.email?.message}</p>
+            {/* <p>{errors.email?.message}</p> */}
 
-            <input value={description} className="input-style" onChange={(e) => setDescription(e.target.value)} placeholder="Role"/>
+            <input value={role} className="input-style" onChange={(e) => setRole(e.target.value)} placeholder="Role"/>
 
-            <p>{errors.Role?.message}</p>
+            {/* <p>{errors.Role?.message}</p> */}
       
             <div className=''>
                 <div className='mt-3'>
