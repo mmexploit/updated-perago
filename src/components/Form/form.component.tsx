@@ -2,7 +2,7 @@ import "../../index.css"
 import { useForm } from "react-hook-form"
 import { Button } from '@mantine/core';
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Select } from '@mantine/core';
 // import { yupResolver } from "@hookform/resolvers/yup";
 // import Select from "react-select";
@@ -10,14 +10,13 @@ import { Select } from '@mantine/core';
 import * as yup from "yup";
 import { useSelector } from "react-redux";
 import { selectModalData } from "../redux/Modal/modal.selectors";
-import HomePage from "../HomePage/homePage.component";
 import { useNavigate } from "react-router-dom";
 
 function Form() {
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
     const [email, setEmail] = useState("");
-    const [role, setRole] = useState("")
+    const [role, setRole] = useState("");
     const [ description, setDescription ] = useState("");
     const [ parent, setParent ] = useState("");
     const [ APIData, setAPIData ] = useState([]);
@@ -33,7 +32,7 @@ function Form() {
         setFname(nameArray[0])
         setLname(nameArray[1])
         setEmail(modalData.data.attributes.Email)
-        setDescription(modalData.data.attributes.Description)
+        setRole(modalData.data.attributes.Description)
       }
     }, [])
 
@@ -110,9 +109,10 @@ function Form() {
                 }
             }).then(function (response) {
                   console.log(response);
-                  console.log("Successfully Logged in ");
+                  console.log("Successfully Updated Entry");
+                  
                   navigate("/")
-                
+                  window.location.reload();
                 })
                 .catch(function (error) {
                   console.log(error);
@@ -128,9 +128,9 @@ function Form() {
                 }
             }).then(function (response) {
               console.log(response);
-              console.log("Successfully Logged in ");
+              console.log("Successfully Added Employee");
               navigate("/")
-            
+              window.location.reload();
             })
             .catch(function (error) {
               console.log(error);
@@ -140,26 +140,30 @@ function Form() {
       
 
     return(
-      <div className="flex justify-center p-8 mt-16 w-5/6 mx-auto h-30 rounded-lg bg-blue-400 md:w-2/5">
+      <React.Fragment>
+        <Button className="bg-blue-400" onClick={() => {
+          navigate("/") 
+          window.location.reload()}}>Home</Button>
+        <div className="flex justify-center p-8 mt-16 w-5/6 mx-auto h-30 rounded-lg bg-blue-400 md:w-2/6 md:p-12 md:mt-26">
         <form onSubmit={handleSubmit((data) => {
             setFname(data.firstName)
             setLname(data.lastName)
             setEmail(data.email)
             axiosRequest()
           })}>
-            <input value={fname} onChange={(e) => setFname(e.target.value)} className="input-style" placeholder="First Name"/>
+            <input required value={fname} onChange={(e) => setFname(e.target.value)} className="input-style" placeholder="First Name"/>
       
             {/* <p>{errors.firstName?.message}</p> */}
       
-            <input value={lname} onChange={(e) => setLname(e.target.value)} className="input-style" placeholder="Last Name"/>
+            <input required value={lname} onChange={(e) => setLname(e.target.value)} className="input-style" placeholder="Last Name"/>
 
             {/* <p>{errors.lastName?.message}</p> */}
 
-            <input value={email} onChange={(e) => setEmail(e.target.value)} className="input-style" placeholder="Email"/>
+            <input required value={email} onChange={(e) => setEmail(e.target.value)} className="input-style" placeholder="Email"/>
 
             {/* <p>{errors.email?.message}</p> */}
 
-            <input value={role} className="input-style" onChange={(e) => setRole(e.target.value)} placeholder="Role"/>
+            <input required value={role} className="input-style" onChange={(e) => setRole(e.target.value)} placeholder="Role"/>
 
             {/* <p>{errors.Role?.message}</p> */}
       
@@ -177,6 +181,8 @@ function Form() {
             <Button className="bg-sky-600 hover:bg-sky-800 mt-10 mx-auto" type="submit">Submit</Button>
           </form>
        </div>
+      </React.Fragment>
+      
     )
    }
    

@@ -10,38 +10,6 @@ import { useEffect, useState } from "react";
 
 function HomePage() {
     // const dispatch = useDispatch();
-    const [value, setValue] = useState(false)
-
-    // const refresh = () => 
-    // {
-    // if( window.localStorage )
-    // {
-    //     //check if reloaded once already 
-    //     if( !value )
-    //     {
-    //     //if not reloaded once, then set firstload to true
-    //     localStorage['firstLoad'] = true;
-    //     //reload the webpage using reload() method
-    //     window.location.reload();
-    //     }  
-    //     else 
-    //     localStorage.removeItem('firstLoad');
-    // }
-    // }
-
-    useEffect(() => {
-        //localStorage.setItem("reloadCount", String(1))
-        const reloadCount = parseInt(localStorage.getItem('reloadCount'));
-        console.log(reloadCount)
-        if(reloadCount < 2) {
-          localStorage.setItem('reloadCount', String(reloadCount + 1));
-          window.location.reload();
-          console.log("Refreshing")
-        } else {
-          localStorage.setItem('reloadCount', String());
-          console.log("Exiting reload")
-        }
-   }, [])
 
     return(
         <>
